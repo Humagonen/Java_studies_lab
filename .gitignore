@@ -1,3 +1,4 @@
+# Ignore project folders
 Simple-Java-Calculator-master/
 Simple-Java-Calculator-master.zip
 
@@ -51,3 +52,25 @@ Thumbs.db
 *.exe
 *.so
 *.dylib
+
+# Eclipse specific git ignore
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
