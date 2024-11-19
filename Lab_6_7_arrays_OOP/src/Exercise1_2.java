@@ -15,7 +15,7 @@ public class Exercise1_2 {
 
 		System.out.println("\n");
 		Matrix();
-//		FindIndexSimple();
+//		FindIndexSimple(); 
 	}
 
 	public static void Matrix() {

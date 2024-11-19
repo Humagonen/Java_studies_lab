@@ -2,7 +2,7 @@ public class Mock_test3 {
 
     public static void main(String args[]) {
         String strGrade = "45", strBonus = "15";
-        String gradeLetter = CalculateGradeLetter(strGrade, strBonus);
+        String gradeLetter = CalculateGradeLetter(strGrade, strBonus); 
         System.out.println("Grade Letter: " + gradeLetter);
     }
 
