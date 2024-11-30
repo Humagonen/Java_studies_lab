@@ -49,7 +49,7 @@ public class Lab_excercises {
 
 		// Count digits before the decimal point
 		int digitsBefore = (decimalIndex == -1) ? numStr.length() : decimalIndex;
-
+//		(decimalIndex == -1)   if 
 		// Count digits after the decimal point
 		int digitsAfter = (decimalIndex == -1) ? 0 : numStr.length() - decimalIndex - 1;
 

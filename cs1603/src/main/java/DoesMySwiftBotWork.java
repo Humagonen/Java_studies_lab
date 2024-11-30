@@ -371,7 +371,7 @@ public class DoesMySwiftBotWork {
 			for (int[] rgb : colours) {
 				swiftBot.fillUnderlights(rgb);
 				Thread.sleep(300);
-			}
+			} 
 			swiftBot.disableUnderlights();
 		} catch (Exception e) {
 			e.printStackTrace();
