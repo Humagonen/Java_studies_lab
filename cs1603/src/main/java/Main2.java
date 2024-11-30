@@ -99,6 +99,7 @@ public class Main2 {
 			if (!validateUserInput()) {  // if the 2 arrays are not equal then game over
 				System.out.println("GAME OVER!");
 				System.out.println("Final Score: " + score);
+				round = 0;
 				return;
 			}
 			
@@ -135,6 +136,7 @@ public class Main2 {
 	// Display the sequence using LEDs
 	private static void displaySequence() {
 		System.out.println("Memorize the sequence:");
+
 		for (int color : sequence) {
 			flashLED(color);
 			try {
@@ -227,18 +229,25 @@ public class Main2 {
 		System.out.println(score);
 	}
 
-	
+
 	
 	// Greeting message
 	public static void greeting() {
-		System.out.println("  __  __                                      _____                      ");
-		System.out.println(" |  \\/  |                                    / ____|                     ");
-		System.out.println(" | \\  / | ___  _ __ ___   ___  _ __  _   _  | |  __  __ _ _ __ ___   ___ ");
-		System.out.println(" | |\\/| |/ _ \\| '_ ` _ \\ / _ \\| '_ \\| | | | | | |_ |/ _` | '_ ` _ \\ / _ \\");
-		System.out.println(" | |  | | (_) | | | | | | (_) | | | | |_| | | |__| | (_| | | | | | |  __/");
-		System.out.println(" |_|  |_|\\___/|_| |_| |_|\\___/|_| |_|\\__, |  \\_____|\\__,_|_| |_| |_|\\___|");
-		System.out.println("                                      __/ |                              ");
-		System.out.println("                                     |___/                               ");
+		System.out.println("");
+		System.out.println("  __  __  ______  __  __   ____    ____   __     __");
+		System.out.println(" |  \\/  ||  ____||  \\/  | / __ \\  ||   \\  \\ \\   / /");
+		System.out.println(" | \\  / || |__   | \\  / || |  | | ||   ||  \\ \\_/ / ");
+		System.out.println(" | |\\/| ||  __|  | |\\/| || |  | | ||___//   \\   /  ");
+		System.out.println(" | |  | || |____ | |  | || |__| | ||   \\     | |   ");
+		System.out.println(" |_|  |_||______||_|  |_| \\____/  ||    \\    |_|   ");
+		System.out.println();
+		System.out.println("   _____          __  __ ______ ");
+		System.out.println("  / ____|   /\\   |  \\/  |  ____|");
+		System.out.println(" | |  __   /  \\  | \\  / | |__   ");
+		System.out.println(" | | |_ | / /\\ \\ | |\\/| | __|  ");
+		System.out.println(" | |__| |/ ____ \\| |  | || |____ ");
+		System.out.println("  \\_____/_/    \\_\\_|  |_||______|");
+
 		System.out.println("");
 		System.out.println("\t\t\tThe rules are as follows");
 		System.out.println("1. Memorize the sequence of colors displayed.");
@@ -247,6 +256,11 @@ public class Main2 {
 		System.out.println("4. The game ends if you press the wrong sequence.");
 		System.out.println("5. After every 5 rounds, you can quit or continue the game.");
 		System.out.println("");
+		System.out.println("Press A: Red");
+		System.out.println("Press B: Green");
+		System.out.println("Press X: Blue");
+		System.out.println("Press Y: White");
+		System.out.println("\n");
 	}
 
 }
