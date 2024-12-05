@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.Random;
 
 public class StringandMathFunctions {
 
@@ -46,6 +47,14 @@ public class StringandMathFunctions {
 		
 		System.out.println("\nMath Functions:");
 		RoundingTest(10.20);
+		
+		// 7.2.4	Random Number Generation
+		
+		Random rand = new Random();
+		for(int i=0;i<10;++i)
+		{
+			System.out.println(rand.nextInt(-100,100));
+		}
 		
 	}
 
@@ -123,6 +132,10 @@ public class StringandMathFunctions {
 	    String s = String.format("For: %1$.5f, ceil: %2$.5f, floor: %3$.6f, and round: %4$.0f%n", x, ceil, floor, round);
 	    System.out.print("Second method:\n" + s);
 	}
+	
+	
+	
+	
 	
 	
 }

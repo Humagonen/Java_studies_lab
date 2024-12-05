@@ -21,9 +21,14 @@ public class FileandSystem {
 		//	2)	In addition to the above, modify the program 
 		//		so that you can specify a filter on the type 
 		//		of file, e.g. “*.txt”.
-		for(int i=0;i<dir_list.length;++i){
-			System.out.println(dir_list[i].getName());
-		}
+//		for(int i=0;i<dir_list.length;++i){
+//			// Find the file extension
+//			int dotIndex = dir_list.lastIndexOf('.');
+//			String fileType = (dotIndex > 0) ? fileName.substring(dotIndex + 1) : "Unknown";
+//
+//			// Print the result
+//			System.out.println("File Name: " + fileName);
+//		}
 
 	}
 

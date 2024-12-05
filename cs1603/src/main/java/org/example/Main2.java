@@ -1,4 +1,4 @@
-// package org.example;
+package org.example;
 import java.util.ArrayList;
 import java.util.Scanner;
 import swiftbot.*;
@@ -11,7 +11,7 @@ import swiftbot.*;
 3. Middle Right Light: White  ->  Button Y
 
 There are no lives, the task does not require that.
- */
+*/
 
 
 public class Main2 {
@@ -44,7 +44,7 @@ public class Main2 {
 		greeting();
 
 		Scanner reader = new Scanner(System.in);
-
+		
 		// start the game? 
 		while(true) {  
 			System.out.println("Are you ready to start?\n");
@@ -70,7 +70,7 @@ public class Main2 {
 
 	}
 
-
+	
 	// Game logic
 	public static void startGame() {
 		while (true) {
@@ -100,11 +100,9 @@ public class Main2 {
 				System.out.println("GAME OVER!");
 				System.out.println("Final Score: " + score);
 				round = 0;
-				score = 0;
-				sequence.clear();
 				return;
 			}
-
+			
 			// else just increase the score
 			score++;
 			System.out.println("Correct! Score: " + score);
@@ -121,25 +119,24 @@ public class Main2 {
 				if (choice.equals("2")) {
 					System.out.println("SEE YOU NEXT TIME!");
 					System.out.println("Final Score: " + score);
-					celebrate(score);
 					return;
 				}
 			}
 		}
 	}
 
-
+	
 	// Add a random color to the sequence
 	private static void addRandomColor() {
 		int randomColor = (int) (Math.random() * 4); // 0-3 for 4 colors (random generates values between [0-1) )
 		sequence.add(randomColor);  // adding new random color to the arraylist
 	}
-
-
+	
+	
 	// Display the sequence using LEDs
 	private static void displaySequence() {
 		System.out.println("Memorize the sequence:");
-		
+
 		for (int color : sequence) {
 			flashLED(color);
 			try {
@@ -149,8 +146,8 @@ public class Main2 {
 			}
 		}
 	}
-
-
+	
+	
 	// Flash a specific LED
 	private static void flashLED(int colorIndex) {
 		int[] rgb;
@@ -202,15 +199,8 @@ public class Main2 {
 	private static void handleButtonPress(int colorIndex) {
 		userSequence.add(colorIndex);  // adds the new color button to the array
 		if (userSequence.size() == sequence.size()) {
-			try {
-				Thread.sleep(500);
-				inputValid = true; // Signal that input is complete
-				disableButtons();
-				
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println(e);
-			}
+			inputValid = true; // Signal that input is complete
+			disableButtons();
 		}
 	}
 
@@ -228,87 +218,83 @@ public class Main2 {
 		return userSequence.equals(sequence);  // Array1.equals(Array2) 
 		// will check if both arrays are the same, returns true or false
 	}
-
-
-
-
+	
+	
+	
+	
 
 	// Celebration method
 	public static void celebrate(int score) {
-		System.out.println(score);
-		// Cap the score at 30 to make sure bot doesnt go too fast.
-		if (score > 30) {
-			System.out.println("Score exceeds the maximum allowed for celebration. Using 30 as the score.");
-			score = 30;
-		}
-		int speed = (score < 5) ? 40 : Math.min(score * 10, 100); // Below 5 score, the speed is set to 40 at 5 and above 5 score, the speed changes based on score.
-		System.out.println("Celebration Speed: " + speed);		
-		try {
-			// Blink LEDs in random order before starting
-			blinkLEDsRandomly();
-			
-			// unit for speed cm/ms
-			// unit for distance 30 cm
-			// unit for time miliseconds
-//			
-//			distance = time * speed
-//			time = distance/speed
-//			time = 30 cm/speed
-//			
-			// Move in a V-shape (30 cm per arm HAVENT ADJUSTED YET - need testing)
-			// Forward left arm of the V
-			swiftBot.move(0, speed, 500);
-			Thread.sleep(2000); // Adjust timing for 30 cm
+	 System.out.println(score);
+	  // Cap the score at 30 to make sure bot doesnt go too fast.
+	    if (score > 30) {
+	        System.out.println("Score exceeds the maximum allowed for celebration. Using 30 as the score.");
+	        score = 30;
+	    }
+   		int speed = (score < 5) ? 40 : Math.min(score * 10, 100); // Below 5 score, the speed is set to 40 at 5 and above 5 score, the speed changes based on score.
+    		System.out.println("Celebration Speed: " + speed);
 
-			swiftBot.move(speed, speed, 30000/speed); 
-			Thread.sleep(2000); // Adjust timing for 30 cm
-
-			// Back to the starting point
-			swiftBot.move(-speed, -speed, 30000/speed);
-			Thread.sleep(2000);
-
-			// Forward right arm of the V
-			swiftBot.move(speed , 0, 1000);
-			Thread.sleep(2000); // Adjust timing for 30 cm
-
-			swiftBot.move(speed, speed, 30000/speed);
-			Thread.sleep(2000); // Adjust timing for 30 cm
-
-			// Back to the starting point
-			swiftBot.move(-speed, -speed, 30000/speed);
-			Thread.sleep(2000);
-
-			blinkLEDsRandomly();
-
-			swiftBot.move(0, speed, 500);
-			Thread.sleep(2000); // Adjust timing for 30 cm
-			
-		} catch (InterruptedException e) {
-			System.out.println("Error during celebration: " + e.getMessage());
-		}
-	}
-
-	private static void blinkLEDsRandomly() throws InterruptedException {
-		int[] colors = {0, 1, 2, 3};
-		shuffleArray(colors);
-
-		for (int color : colors) {
-			flashLED(color); 
-			Thread.sleep(300); 
-		}
-	}
-
-	// Shuffle an array
-	private static void shuffleArray(int[] array) {
-		for (int i = array.length - 1; i > 0; i--) {
-			int j = (int) (Math.random() * (i + 1));
-			int temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-		}
+		    // Calculate the time needed to travel 30 cm at the given speed
+		    int distance = 30; // in cm
+		    double time = distance / (speed / 100.0);  // need to change the 100 here
+		
+		    try {
+		        // Blink LEDs in random order before starting
+		        blinkLEDsRandomly();
+		
+		        // Move in a V-shape (30 cm per arm HAVENT ADJUSTED YET - need testing)
+		        // Forward left arm of the V
+			moveForDistance(speed, 0, time);
+		
+		        // Back to the starting point
+			moveForDistance(-speed, 0, time);
+		
+		        // Forward right arm of the V
+        		moveForDistance(0, speed, time);
+		
+		        // Back to the starting point
+        		moveForDistance(0, -speed, time);
+			    
+		        blinkLEDsRandomly();
+		
+		        swiftBot.move(0,0);
+		
+		    } catch (InterruptedException e) {
+		        System.out.println("Error during celebration: " + e.getMessage());
+    		    }
 	}
 
 
+		private static void moveForDistance(int leftSpeed, int rightSpeed, double timeInSeconds) throws InterruptedException {
+		    int timeInMilliseconds = (int) (timeInSeconds * 1000);
+		    swiftBot.move(leftSpeed, rightSpeed);
+		    Thread.sleep(timeInMilliseconds);
+		    swiftBot.move(0, 0);
+		}
+
+
+
+		private static void blinkLEDsRandomly() throws InterruptedException {
+		    int[] colors = {0, 1, 2, 3};
+		    shuffleArray(colors);
+		
+		    for (int color : colors) {
+		        flashLED(color); 
+		        Thread.sleep(300); 
+		    }
+		}
+		
+		// Shuffle an array
+		private static void shuffleArray(int[] array) {
+		    for (int i = array.length - 1; i > 0; i--) {
+		        int j = (int) (Math.random() * (i + 1));
+		        int temp = array[i];
+		        array[i] = array[j];
+		        array[j] = temp;
+		    }
+		}
+
+	
 	// Greeting message
 	public static void greeting() {
 		System.out.println("");
