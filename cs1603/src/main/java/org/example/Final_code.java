@@ -1,13 +1,20 @@
 package org.example;
-
-import swiftbot.Button;
-import swiftbot.SwiftBotAPI;
-import swiftbot.Underlight;
 import java.util.ArrayList;
 import java.util.Scanner;
 import swiftbot.*;
 
-public class Main2 {
+/* Notes on how the variables are assigned:
+
+0. Front Left Light  : Red    ->  Button A
+1. Front Right Light : Green  ->  Button B
+2. Middle Left Light : Blue   ->  Button X
+3. Middle Right Light: White  ->  Button Y
+
+There are no lives, the task does not require that.
+ */
+
+
+public class Final_code {
 
 	private static int score = 0;  // define score with an initial value of 0
 	private static int round = 0; // counting rounds of the game
@@ -226,66 +233,85 @@ public class Main2 {
 
 
 
+
 	// Celebration method
 	public static void celebrate(int score) {
 		System.out.println(score);
 		// Cap the score at 30 to make sure bot doesnt go too fast.
-		if (score > 10) {
-			System.out.println("Score exceeds the maximum allowed for celebration. Using 10 as the score. So speed is 100");
-			score = 10;
+		if (score > 30) {
+			System.out.println("Score exceeds the maximum allowed for celebration. Using 30 as the score.");
+			score = 30;
 		}
-
 		int speed = (score < 5) ? 40 : Math.min(score * 10, 100); // Below 5 score, the speed is set to 40 at 5 and above 5 score, the speed changes based on score.
-		System.out.println("Celebration Speed: " + speed);
+		System.out.println("Celebration Speed: " + speed);	
+		int time = 1500;
+		try {
+			// Blink LEDs in random order before starting
+			blinkLEDsRandomly();
 
-		// Calculate the time needed to travel 30 cm at the given speed
-		int distance = 30; // in cm
-		double time = distance / (speed / 2.5);  // need to change the 100 here
+			// unit for speed?
+			// unit for distance 30 cm
+			// unit for time milliseconds
+			//			
+			//			distance = time * speed
+			//			time = distance/speed
+			//			time = 30 cm/speed
+			switch (speed) {
+			case 50:
+				time = 1380; // Example time in milliseconds for speed 50
+				break;
+			case 60:
+				time = 1264;  // Example time in milliseconds for speed 60
+				break;
+			case 70:
+				time = 1148;  // Example time in milliseconds for speed 70
+				break;
+			case 80:
+				time = 1032;  // Example time in milliseconds for speed 80
+				break;
+			case 90:
+				time = 916;  // Example time in milliseconds for speed 90
+				break;
+			case 100:
+				time = 800;  // Example time in milliseconds for speed 100
+				break;
+			default:
+				System.out.println("Invalid speed");
+			}
+
+
+			// Move in a V-shape (30 cm per arm HAVENT ADJUSTED YET - need testing)
+			// Forward left arm of the V
+			swiftBot.move(0, speed, 500);
+			Thread.sleep(500); // Adjust timing for 30 cm
+
+			swiftBot.move(speed, speed, time); 
+			Thread.sleep(500); // Adjust timing for 30 cm
+
+			// Back to the starting point
+			swiftBot.move(-speed, -speed, time);
+			Thread.sleep(500);
+
+			// Forward right arm of the V
+			swiftBot.move(speed , 0, 1000);
+			Thread.sleep(500); // Adjust timing for 30 cm
+
+			swiftBot.move(speed, speed, time);
+			Thread.sleep(500); // Adjust timing for 30 cm
+
+			// Back to the starting point
+			swiftBot.move(-speed, -speed, time);
+			Thread.sleep(500);
+
+			swiftBot.move(0, speed, 500);
+			Thread.sleep(500); // Adjust timing for 30 cm
+			
+			blinkLEDsRandomly();
+
+		} catch (InterruptedException e) {
+			System.out.println("Error during celebration: " + e.getMessage());
+		}
 	}
-
-
-	private static void get(int speed, double time) throws InterruptedException {
-
-		// Blink LEDs in random order before starting
-		blinkLEDsRandomly();
-
-		// Forward left arm of the V
-		moveForDistance(0, speed, 0.5);
-		Thread.sleep(1000);
-
-		moveForDistance(speed, speed, time);
-		Thread.sleep(1000);
-		// Back to the starting point
-		moveForDistance(-speed, -speed, time);
-		Thread.sleep(1000);
-
-		moveForDistance(speed, 0, 1);
-		Thread.sleep(1000);
-		// Forward right arm of the V
-		moveForDistance(speed, speed, time);
-		Thread.sleep(1000);
-		// Back to the starting point
-		moveForDistance(-speed, -speed, time);
-		Thread.sleep(1000);
-
-		moveForDistance(0, speed, 0.5);
-		Thread.sleep(1000);
-
-		blinkLEDsRandomly();
-
-		swiftBot.move(0,0,0);
-	}
-
-
-
-	private static void moveForDistance(int leftSpeed, int rightSpeed, double timeInSeconds) throws InterruptedException {
-		int timeInMilliseconds = (int) (timeInSeconds * 1000);
-		swiftBot.move(leftSpeed, rightSpeed, timeInMilliseconds);
-		Thread.sleep(timeInMilliseconds);
-		swiftBot.move(0, 0, 500);
-	}
-
-
 
 	private static void blinkLEDsRandomly() throws InterruptedException {
 		int[] colors = {0, 1, 2, 3};

@@ -43,19 +43,54 @@ public class StringandMathFunctions {
 		System.out.println("\nQ4:");
 		Q4_ReplaceStr(c, "ll", "ppp");
 		
-		// 7.2.2. Math functions
 		
+		// 7.2.2. Math functions
 		System.out.println("\nMath Functions:");
 		RoundingTest(10.20);
 		
-		// 7.2.4	Random Number Generation
 		
+		// 7.2.4	Random Number Generation
+		System.out.println("\nRANDOM NUMBER GENERATION:");
 		Random rand = new Random();
-		for(int i=0;i<10;++i)
+		
+		// Q1
+		for(int i=0;i<5;++i)  // specify how many random integers to generate
 		{
-			System.out.println(rand.nextInt(-100,100));
+			System.out.print(rand.nextInt(-100,100));
+			System.out.print(",");
 		}
 		
+		// Q2
+		System.out.println("\n\nBetween 5-45:");
+		for(int i=0;i<5;++i)
+		{
+			System.out.print(rand.nextInt(5,45));
+			System.out.print(",");
+		}
+		
+		// Q3
+		System.out.println("\n\nGenerate random doubles:");
+		for(int i=0;i<5;++i)
+		{
+			System.out.print(rand.nextDouble());  // default - between 0-1
+			System.out.print(",");
+		}
+		
+		// Q4
+		System.out.println("\n\nGenerate random doubles between zero and one:");
+		for(int i=0;i<5;++i)
+		{
+			System.out.print(rand.nextDouble(0,1)); 
+			System.out.print(",");
+		}
+		
+		// Q5
+		System.out.println("\n\nGenerate random doubles between limits (a,b):");
+		for(int i=0;i<5;++i)
+		{
+			System.out.print(rand.nextDouble(0,50));
+			System.out.print(",");
+		}
 	}
 
 	// Q7.2.1 Strings
@@ -132,10 +167,5 @@ public class StringandMathFunctions {
 	    String s = String.format("For: %1$.5f, ceil: %2$.5f, floor: %3$.6f, and round: %4$.0f%n", x, ceil, floor, round);
 	    System.out.print("Second method:\n" + s);
 	}
-	
-	
-	
-	
-	
 	
 }
