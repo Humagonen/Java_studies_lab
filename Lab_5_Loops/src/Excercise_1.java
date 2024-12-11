@@ -5,6 +5,7 @@ public class Excercise_1 {
 
 		int n = 10;
 
+		// Q1
 		for (int i = 1; i <= n; i++) {
 
 			// 5 % 2 == 0
