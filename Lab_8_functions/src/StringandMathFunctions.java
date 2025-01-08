@@ -111,12 +111,16 @@ public class StringandMathFunctions {
 		// Find the index of the decimal point
 		int decimalIndex = numStr.indexOf('.');
 
-		// Count digits before the decimal point
+		// Count digits before the decimal point, remember all numbers are double in this case
 		int digitsBefore = (decimalIndex == -1) ? numStr.length() : decimalIndex;
-		//		(decimalIndex == -1)   if 
-		// Count digits after the decimal point
+		// if "." not exists, get the length of str. else get the decimal index
+		
 		int digitsAfter = (decimalIndex == -1) ? 0 : numStr.length() - decimalIndex - 1;
-
+		// if "." not exists, 0. else, get length of the whole string - the decimal index - 1
+	    // for x, "123.45", 6 - 3 - 1 = 2
+		
+		// System.out.println(numStr);
+		// System.out.println(decimalIndex);
 		System.out.println(name + ": " + digitsBefore + " digits before and " + digitsAfter + " digits after the decimal point.");
 	}
 
@@ -125,10 +129,9 @@ public class StringandMathFunctions {
 
 	public static String Q3_ConcatReverse(String d, String e) {
 
-		// going to take c in reverse and e normal and concat them 
+		// going to take d in reverse and e normal and concat them 
         String reversed = new StringBuilder(d).reverse().toString();
-        String original = e;
-        String c = reversed + " " + original; // olleh World
+        String c = reversed + " " + e; // olleh World
         System.out.println("\n" + c); // Output: olleh World
 
         return c;

@@ -10,24 +10,22 @@ public class Check_divisable {
 
 		if (x > 0 && (x % 2 == 0 && x % 3 == 0)) {
 
-			System.out.println("Whole number is divisable by 2 and 3");
-			System.out.println("The number is:" + x);
+			System.out.println("Whole number is divisible by 2 and 3");
+			System.out.println("The number is: " + x);
 		}
 		else if (x > 0 && (x % 7 == 0 || x % 9 == 0)) {
 
-			System.out.println("Whole number is divisable by 7 or 9");
-			System.out.println("The number is:" + x);
+			System.out.println("Whole number is divisible by 7 or 9");
+			System.out.println("The number is: " + x);
 		}
 		else if (x > 0 && (x % 2 == 0 && x % 3 == 0 && x % 5 != 0)) {
 
 			System.out.println("Whole number is divisible by 2 and 3 but not 5");
-			System.out.println("The number is:" + x);
+			System.out.println("The number is: " + x);
 		}
 		else {
 			System.out.println("Does not apply");
-			System.out.println("The number is:" + x);
+			System.out.println("The number is: " + x);
 		}
-
 	}
-
 }

@@ -10,14 +10,12 @@ public class Expressions {
 		z *= 2;	// Equivalent to z = z * 2;
 		a /= 4;	// Equivalent to a = a / 4;
 		b %= 7;	// Equivalent to b = b % 7;
-		x++;		// Equivalent to x = x + 1;
-		y--;		// Equivalent to y = y - 1; 
+		x++;	// Equivalent to x = x + 1;
+		y--;	// Equivalent to y = y - 1; 
 		
-		System.out.println(x + " " + y);  // concatination
-		System.out.println(x + y);  // addition
-
+		System.out.println(x + " " + y);  // concatination , output -> 6 -4
+		System.out.println(x + y);  // addition , output -> 2
 	}
-
 }
 
 

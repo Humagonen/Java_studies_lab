@@ -27,7 +27,8 @@ public class Lab_Excercises {
 
 		/////////////
 		System.out.println();
-		DaysinMonth("march", 2014);
+		DaysinMonth("March", 2014); 
+	// use month.equals() instead of ==, or it will not give the lowercase converted value
 
 	}
 
@@ -98,11 +99,12 @@ public class Lab_Excercises {
 
 
 	// Q4
-	public static int DaysinMonth(String month, int year) // 03, 2014
+	public static int DaysinMonth(String x, int year) // 03, 2014
 	{
 		int days = 0;
+		String month = x.toLowerCase();
 
-		if (month == "02" || month == "february") {
+		if (month.equals("02") || month.equals("february")) {
 			if (LeapYear(year) == true) {
 				days = 29;
 			} else {
@@ -110,78 +112,67 @@ public class Lab_Excercises {
 			}
 		}else {
 
-			if (month == "01" || month == "january") {
+			if (month.equals("01") || month.equals("january")) {
 				days = 31;
-
-			}else if (month == "03" || month == "march") {
+			} else if (month.equals("03") || month.equals("march")) {
 				days = 31;
-
-			}else if (month == "04" || month == "april") {
+			} else if (month.equals("04") || month.equals("april")) {
 				days = 30;
-
-			}else if (month == "05" || month == "may") {
+			} else if (month.equals("05") || month.equals("may")) {
 				days = 31;
-
-			}else if (month == "06" || month == "june") {
+			} else if (month.equals("06") || month.equals("june")) {
 				days = 30;
-
-			}else if (month == "07" || month == "july") {
+			} else if (month.equals("07") || month.equals("july")) {
 				days = 31;
-
-			}else if (month == "08" || month == "august") {
+			} else if (month.equals("08") || month.equals("august")) {
 				days = 31;
-
-			}else if (month == "09" || month == "september") {
+			} else if (month.equals("09") || month.equals("september")) {
 				days = 30;
-
-			}else if (month == "10" || month == "october") {
+			} else if (month.equals("10") || month.equals("october")) {
 				days = 31;
-
-			}else if (month == "11" || month == "november") {
+			} else if (month.equals("11") || month.equals("november")) {
 				days = 30;
-
-			}else if (month == "12" || month == "december") {
+			} else if (month.equals("12") || month.equals("december")) {
 				days = 31;
-
-			}else {
+			} else {
 				System.out.println("Invalid Date");
 			}
 		}
 
-		System.out.println("Days in Month for " + month + "," + year + " is " + days + " days.");
-		return days; // can be improved by converting to lowercase if its uppercase
+			System.out.println("Days in Month for " + month + "," + year + " is " + days + " days.");
+			return days; // can be improved by converting to lowercase if its uppercase
+		}
+
+	
+		// Alternative Solution in another class, see the solution
+
+
+
+		// Q5
+		public static int DaysAlive(int day, int month, int year)
+		{
+			int daysalive = 0;
+
+			// get current date, get the date of birth, 
+			// loop the years in between and check if any of them is a leap year. 
+			// if leap year add 1 day. if not just subtract
+
+
+			LocalDate currentDate = LocalDate.now();
+			System.out.println("Current Date: " + currentDate);
+
+
+			//		if (month == 2 || month == 02) {
+			//			if (LeapYear(year) == true) {
+			//				daysalive = ;
+			//			} else {
+			//				daysalive = ;
+			//			}
+			//		}
+
+			System.out.println("Days alive is: " + daysalive);
+			return daysalive;
+		}
+
+
 	}
-
-	// Alternative Solution in another class, see the solution
-
-
-
-
-	// Q5
-	public static int DaysAlive(int day, int month, int year)
-	{
-		int daysalive = 0;
-		
-		// get current date, get the date of birth, 
-		// loop the years in between and check if any of them is a leap year. 
-		// if leap year add 1 day. if not just subtract
-		
-		
-		LocalDate currentDate = LocalDate.now();
-		System.out.println("Current Date: " + currentDate);
-		
-
-//		if (month == 2 || month == 02) {
-//			if (LeapYear(year) == true) {
-//				daysalive = ;
-//			} else {
-//				daysalive = ;
-//			}
-//		}
-
-		System.out.println("Days alive is: " + daysalive);
-		return daysalive;
-	}
-
-
-}
