@@ -1,3 +1,4 @@
+// seminar activity
 
 public class Excercise_1 {
 
@@ -7,13 +8,11 @@ public class Excercise_1 {
 
 		// Q1
 		for (int i = 1; i <= n; i++) {
-
 			// 5 % 2 == 0
 
 			if (i % 2 == 0) {
 
 				System.out.println(i + "!");  // 2, 4, 6, 8, 10
-
 			}
 
 		}
@@ -41,6 +40,7 @@ public class Excercise_1 {
 	}
 
 
+	// nested loops
 	public static void Q3() {
 
 		int n = 5;

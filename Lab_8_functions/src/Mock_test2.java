@@ -6,6 +6,7 @@ public class Mock_test2 {
 		int N = 5;
 
 		System.out.print("First solution:\n");
+		
 		String sequence = MakeSequence(N);
 		System.out.println(sequence); 
 
@@ -15,6 +16,7 @@ public class Mock_test2 {
 
 	}
 
+	
 	public static String MakeSequence(int N) {
 		// Handle invalid input
 		if (N < 1) {
@@ -33,6 +35,7 @@ public class Mock_test2 {
 		return result.toString();
 	}
 
+	
 	// second way
 	public static String MakeSequence2(int N) 
 	{

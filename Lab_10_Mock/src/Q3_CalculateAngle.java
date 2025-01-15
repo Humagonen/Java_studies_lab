@@ -16,6 +16,7 @@ public class Q3_CalculateAngle {
 			double x = (b*b + c*c - a*a)/(2*b*c);
 			double y = Math.acos(x);
 			double z = Math.toDegrees(y);
+			
 			return z;
 			
 		} else {

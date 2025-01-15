@@ -6,7 +6,7 @@ public class Exercise1_2 {
 
 		System.out.println(T[3]);
 
-		for(int i= 0; i <= T.length -1; i++) {
+		for(int i= 0; i < T.length; i++) {
 
 			System.out.println(T[i] + " multiplied by 60 (from minutes to seconds) = " + T[i] * 60);
 			//			System.out.println(T[i] * 60);

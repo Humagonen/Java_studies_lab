@@ -11,8 +11,10 @@ public class Mock_test3 {
         if (strGrade == null || strBonus == null) {
             return "-1";
         }
-        if (strGrade.isEmpty() || strBonus.isEmpty() || strGrade.equals(" ") || strBonus.equals(" ")) {
+        if ((strGrade.trim().isEmpty()) || (strBonus.trim().isEmpty())) {
             return "-2";
+            
+            // strGrade.isEmpty() || strBonus.isEmpty() || strGrade.equals(" ") || strBonus.equals(" ")
         }
 
         try {

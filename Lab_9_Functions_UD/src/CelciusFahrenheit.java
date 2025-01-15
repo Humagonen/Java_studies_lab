@@ -10,8 +10,10 @@ public class CelciusFahrenheit {
 
 		System.out.println("Conversion for: {13, 44, 16, 11}");
 		CelsiusToFahrenheit(temp);
+		
 		System.out.println("\nConversion for (negative values): {-13, -4, 16, 10}"); 
 		CelsiusToFahrenheit(temp1); // return 0 for negative values
+		
 		System.out.println("\nConversion for (String): {\"abc\", \"\", \"16\", \"1\"}");
 		CelsiusToFahrenheitStr(temp2);
 
@@ -26,7 +28,7 @@ public class CelciusFahrenheit {
 			if (celsius[i] < 0) {
 				fahrenheit[i] = 0.0;
 			} else{
-				fahrenheit[i] = celsius[i] * 9/5 + 32;
+				fahrenheit[i] = celsius[i] * 9.0/5 + 32;
 			}
 			System.out.println(fahrenheit[i]);
 		}
@@ -47,6 +49,8 @@ public class CelciusFahrenheit {
 
 			} else {
 				fahrenheit[i] = Integer.parseInt(celsius[i]);
+				fahrenheit[i] = fahrenheit[i] * 9.0/5 + 32;
+				
 			}
 
 			System.out.println(fahrenheit[i]);

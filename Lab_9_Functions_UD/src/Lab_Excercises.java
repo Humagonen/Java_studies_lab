@@ -10,25 +10,51 @@ public class Lab_Excercises {
 		System.out.println("if odd false, if even true\n");
 		System.out.println("for x = 55");
 		OddEven(x);
-		System.out.println();
-		System.out.println("for z = 10");
+
+		System.out.println("\nfor z = 10");
 		OddEven(z);
-		//////////////
+		
+		////////////// reversed string
+		System.out.println("\n------------Reversed String------------\n");
 
 		String d = "abc";
 		System.out.println("\nReversed str of " + d + " is:");
 		ReverseStr(d);
 
-		//////////////
 
-		int w = 2023;
-		System.out.println("\nChecking Year " + w + " :");
-		LeapYear(w);
+		////////////// leap year
+		System.out.println("\n---------------Leap Year--------------\n");
 
-		/////////////
+
+		int w = 2000;
+		boolean i = LeapYear(w);
+		System.out.println("\nLeap Year for " + w + " : " + i);
+		
+
+		///////////// days in month
+		System.out.println("\n------------Days in Month------------\n");
+
 		System.out.println();
-		DaysinMonth("March", 2014); 
-	// use month.equals() instead of ==, or it will not give the lowercase converted value
+		int year = 2000;
+		String month = "september";
+		String numericMonth= convertMonth(month);
+		int days = DaysinMonth(month, year); 
+		
+		System.out.println("Days in month " + month + " (" + numericMonth + "), year " + year + ": " + days);
+	    
+		// use month.equals() instead of ==, or it will not give the lowercase converted value
+
+		
+		
+		////////// q5
+		System.out.println("\n--------------Days Alive------------\n");
+
+		int birthYear = 2000;
+		String birthMonth = "september"; // Full month name
+		int birthDay = 14;
+
+		// Calculate total days alive
+		daysAlive(birthYear, birthMonth, birthDay);
 
 	}
 
@@ -45,9 +71,9 @@ public class Lab_Excercises {
 	}
 
 
+	
 	// Q2
-	public static String ReverseStr(String s)
-	{
+	public static String ReverseStr(String s) {
 		String reversedstr = "";
 		for (int i = 0; i < s.length(); i ++) {  // abc -> cba
 
@@ -66,6 +92,7 @@ public class Lab_Excercises {
 	}
 
 
+	
 
 	// Q3
 
@@ -90,8 +117,6 @@ public class Lab_Excercises {
 		if (year % 400 ==0) {
 			check = true;
 		}
-
-		System.out.println("Leap Year: " + check);
 		return check;
 	}
 
@@ -99,80 +124,101 @@ public class Lab_Excercises {
 
 
 	// Q4
-	public static int DaysinMonth(String x, int year) // 03, 2014
-	{
-		int days = 0;
-		String month = x.toLowerCase();
+	// days in month
+	public static int DaysinMonth(String month, int year) {
+	    // Convert the month to a numeric format
+	    String numericMonth = convertMonth(month);
+	    int days;
 
-		if (month.equals("02") || month.equals("february")) {
-			if (LeapYear(year) == true) {
-				days = 29;
-			} else {
-				days = 28;
-			}
-		}else {
+	    switch (numericMonth) {
+	        case "01": case "03": case "05": case "07": case "08": case "10": case "12":
+	            days = 31; // Months with 31 days
+	            break;
+	        case "04": case "06": case "09": case "11":
+	            days = 30; // Months with 30 days
+	            break;
+	        case "02":
+	            days = LeapYear(year) ? 29 : 28; // February
+	            break;
+	        default:
+	            throw new IllegalArgumentException("Invalid month: " + month);
+	    }
 
-			if (month.equals("01") || month.equals("january")) {
-				days = 31;
-			} else if (month.equals("03") || month.equals("march")) {
-				days = 31;
-			} else if (month.equals("04") || month.equals("april")) {
-				days = 30;
-			} else if (month.equals("05") || month.equals("may")) {
-				days = 31;
-			} else if (month.equals("06") || month.equals("june")) {
-				days = 30;
-			} else if (month.equals("07") || month.equals("july")) {
-				days = 31;
-			} else if (month.equals("08") || month.equals("august")) {
-				days = 31;
-			} else if (month.equals("09") || month.equals("september")) {
-				days = 30;
-			} else if (month.equals("10") || month.equals("october")) {
-				days = 31;
-			} else if (month.equals("11") || month.equals("november")) {
-				days = 30;
-			} else if (month.equals("12") || month.equals("december")) {
-				days = 31;
-			} else {
-				System.out.println("Invalid Date");
-			}
-		}
+	    return days;
+	}
+	
+	// Alternative Solution in another class, see the solution (only with int)
 
-			System.out.println("Days in Month for " + month + "," + year + " is " + days + " days.");
-			return days; // can be improved by converting to lowercase if its uppercase
-		}
 
 	
-		// Alternative Solution in another class, see the solution
+	
+	// Q5
+	// days alive
+	public static int daysAlive(int birthYear, String birthMonth, int birthDay) {
+	    // Get today's date
+	    java.time.LocalDate today = java.time.LocalDate.now();
+	    int currentYear = today.getYear();
+	    String currentMonth = String.format("%02d", today.getMonthValue()); // Convert month to two digits
+	    int currentDay = today.getDayOfMonth();
 
+	    int totalDays = 0;
 
+	    // Calculate days for years between birth year and current year
+	    for (int year = birthYear; year <= currentYear; year++) {
+	        if (year == birthYear) {
+	            // For the birth year, count days from the birth date to the end of the year
+	            for (int month = Integer.parseInt(convertMonth(birthMonth)); month <= 12; month++) {
+	                int daysInMonth = DaysinMonth(String.format("%02d", month), year);
 
-		// Q5
-		public static int DaysAlive(int day, int month, int year)
-		{
-			int daysalive = 0;
+	                if (month == Integer.parseInt(convertMonth(birthMonth))) {
+	                    totalDays += daysInMonth - birthDay + 1; // Include birth day
+	                } else {
+	                    totalDays += daysInMonth;
+	                }
+	            }
+	        } else if (year == currentYear) {
+	            // For the current year, count days from the start of the year to today's date
+	            for (int month = 1; month <= Integer.parseInt(currentMonth); month++) {
+	                int daysInMonth = DaysinMonth(String.format("%02d", month), year);
 
-			// get current date, get the date of birth, 
-			// loop the years in between and check if any of them is a leap year. 
-			// if leap year add 1 day. if not just subtract
+	                if (month == Integer.parseInt(currentMonth)) {
+	                    totalDays += currentDay; // Add days up to the current day
+	                } else {
+	                    totalDays += daysInMonth;
+	                }
+	            }
+	        } else {
+	            // For all intermediate years, add 365 or 366 days
+	            totalDays += LeapYear(year) ? 366 : 365;
+	        }
+	    }
 
-
-			LocalDate currentDate = LocalDate.now();
-			System.out.println("Current Date: " + currentDate);
-
-
-			//		if (month == 2 || month == 02) {
-			//			if (LeapYear(year) == true) {
-			//				daysalive = ;
-			//			} else {
-			//				daysalive = ;
-			//			}
-			//		}
-
-			System.out.println("Days alive is: " + daysalive);
-			return daysalive;
-		}
-
-
+	    System.out.println("Total days alive: " + totalDays);
+	    return totalDays;
 	}
+
+	
+	
+	
+	// Helper function to convert full month name to two-digit string
+	public static String convertMonth(String month) {
+	    month = month.toLowerCase();
+	    switch (month) {
+	        case "january": return "01";
+	        case "february": return "02";
+	        case "march": return "03";
+	        case "april": return "04";
+	        case "may": return "05";
+	        case "june": return "06";
+	        case "july": return "07";
+	        case "august": return "08";
+	        case "september": return "09";
+	        case "october": return "10";
+	        case "november": return "11";
+	        case "december": return "12";
+	        default: return month; // If already numeric, return as-is
+	    }
+	}
+
+	
+}

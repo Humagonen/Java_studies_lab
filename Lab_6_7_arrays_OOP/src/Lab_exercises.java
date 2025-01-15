@@ -25,7 +25,7 @@ public class Lab_exercises {
 
 		ArrayList<Data> ArrayA = new ArrayList<Data>();
 
-		ArrayA.add(new Data("Fred", 21));
+		ArrayA.add(new Data("Fred", 41));
 		ArrayA.add(new Data("Jo", 43));
 		ArrayA.add(new Data("Zoe", 37));
 //		ArrayA.add(2, new Data("Harry", 71)); // inserting to specific index

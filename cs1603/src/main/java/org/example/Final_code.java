@@ -10,7 +10,6 @@ import swiftbot.*;
 2. Middle Left Light : Blue   ->  Button X
 3. Middle Right Light: White  ->  Button Y
 
-There are no lives, the task does not require that.
  */
 
 
