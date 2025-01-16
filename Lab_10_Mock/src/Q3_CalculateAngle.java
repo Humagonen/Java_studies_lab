@@ -14,8 +14,8 @@ public class Q3_CalculateAngle {
 		if ((a + b > c) && (a + c > b) && (b + c > a)){
 			
 			double x = (b*b + c*c - a*a)/(2*b*c);
-			double y = Math.acos(x);
-			double z = Math.toDegrees(y);
+			double y = Math.acos(x);  // radians
+			double z = Math.toDegrees(y);  // degrees
 			
 			return z;
 			
