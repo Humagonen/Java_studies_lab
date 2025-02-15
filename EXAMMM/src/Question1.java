@@ -14,6 +14,4 @@ public class Question1 {
 		return b;
 
 	}
-	
-	
 }

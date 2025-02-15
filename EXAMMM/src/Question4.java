@@ -3,13 +3,16 @@ public class Question4 {
 
 	public static void main(String[] args) {
 
-		String x = "-2"; // tested with "", " ", null, "abc", "25"
-		String y = "-3";
+		String x = "  2  "; // tested with "", " ", null, "abc", "25" 
+		// here "  2  "  must be is empty or null too, so .contains() must be used
+ 		String y = "3";
 
 		Quadrant(x, y);
 
 	}
-
+	
+	
+	
 	// tested with "", " ", "    ", null, "abc", "25" works perfectly on eclipse...
 	public static int Quadrant(String x, String y) {
 

@@ -1,4 +1,4 @@
-package org.example;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import swiftbot.*;
@@ -60,7 +60,7 @@ public class Final_code {
 				break;
 			case "2":
 				reader.close();
-				System.exit(0);  // terminate program
+				System.exit(0); // terminate program
 				break;
 			default:
 				System.out.println("ERROR: Please enter a valid number"); // will give an error if anything else is entered
