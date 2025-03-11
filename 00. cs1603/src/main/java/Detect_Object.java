@@ -12,6 +12,19 @@ import swiftbot.Button;
 import swiftbot.ImageSize;
 import swiftbot.SwiftBotAPI;
 
+/* 
+ * issues:
+ * 
+ * saved images are overwriting. I want each image captured saved as different images. (e.g. curious.jpg(1), curious.jpg(2)...)
+ * in termination the program still runs while termination is also running
+ * 30 cm gap is not quite 30 cm in real life.. should I make it greater?
+ * wandering goes weird (like a turtle)
+ * 
+ * 
+ * 
+ */
+
+
 public class Detect_Object {
 
 	private static String valid_modes[] = {"Curious SwiftBot", "Scaredy SwiftBot", "Dubious SwiftBot"}; 
@@ -56,9 +69,11 @@ public class Detect_Object {
 												swiftBot.stopMove();
 												System.out.println("Button X Pressed.");
 												swiftBot.disableButton(Button.X);
-												terminate_program(); });
+												terminate_program(); 
+												swiftBot.stopMove();});
+		                                        
 
-		while (press == false) {
+		//while (press == false) { // try to get that out. turns out it works the same with or without this
 			
 			greeting();
 
@@ -96,7 +111,6 @@ public class Detect_Object {
 						System.out.println("Executing Dubious SwiftBot mode...");
 						System.out.println("\nRandomly selecting a mode...");
 						select_random_mode();
-
 					}
 
 					break;
@@ -115,21 +129,11 @@ public class Detect_Object {
 					}
 
 					get_mode(); // if retry_attempts != 5 get a mode again 
-
-				}		
-
+				}
 			}  // end of retry_attempts loop
-			
-		}
-
-//		swiftBot.stopMove();  // powers all motors off
-//		swiftBot.disableAllButtons(); // disable all the buttons
-//		terminate_program();
-	
+		//} no need for this
 	}
 								
-
-
 
 
 	public static void get_mode() {
@@ -137,10 +141,10 @@ public class Detect_Object {
 		Scanner reader = new Scanner(System.in);
 
 		System.out.println("Please choose to scan QR code or enter the SwiftBot Mode manually. "
-				+ "You have 5 attempts in total to specify a mode. ");
-		System.out.println(
-				"\nPress 1 to scan a QR code\r\n"
-						+ "Press 2 to enter the mode manually\n");
+				         + "You have 5 attempts in total to specify a mode. ");
+		
+		System.out.println("\nPress 1 to scan a QR code\r\n"
+						 + "Press 2 to enter the mode manually\n");
 
 		boolean choice = true;
 		while (choice) {
@@ -155,7 +159,7 @@ public class Detect_Object {
 
 			case "2":
 				System.out.println("Enter one of the following modes (must be exactly the same):\r\n"
-						+ "Curious SwiftBot, Scaredy SwiftBot, Dubious SwiftBot.\n");
+					        	 + "Curious SwiftBot, Scaredy SwiftBot, Dubious SwiftBot.\n");
 				reader.nextLine();
 				selected_mode = reader.nextLine();
 
@@ -172,10 +176,9 @@ public class Detect_Object {
 
 
 
-	public static void select_random_mode() { // random mode selection for dubious mode
+	public static void select_random_mode() { // random mode selection for Dubious SwiftBot mode
 
 		Random rand = new Random();
-
 		int random_num = rand.nextInt(0,2); // will generate either 0 or 1
 
 		if (random_num == 0) {
@@ -191,139 +194,144 @@ public class Detect_Object {
 	}
 
 
+	public static void wandering() { 
+	    double n = 50.0;  // Threshold for scaredy mode
 
-	public static void wandering() {
-		
-		while (swiftBot.useUltrasound() > 100.0) {		
-			speed = 40;
-			// turn all leds to blue
-			System.out.println("Wandering... (Speed:40)"
-					+ "\nUnderlights: Blue");
-	
-			swiftBot.move(speed, speed, 5000);
-	
-			System.out.println("Waiting for 1 second after 5 seconds");
-	
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	
-			System.out.println("Changing direction randomly...");
-	
-			// 		randomly choose left or right and the degree to turn by adjusting time (random_degree)
-			// 		20-90 degrees in speed 60 --> check with bot
-			
-			Random rand = new Random();
-	
-			int random_turn = rand.nextInt(0,2); // will generate either 0 or 1
-			int random_degree = rand.nextInt(250, 2000);
-	
-			if (random_turn == 0) {  // turn right
-	
-				swiftBot.move(speed, 0, random_degree);
-				
-			} else {  // turn left
-				
-				swiftBot.move(0, speed, random_degree);
-			}
-		}
+	    int[] blue = {0, 0, 255}; // blue color
+	    swiftBot.fillUnderlights(blue);
+	    
+	    if(selected_mode.equals("Curious SwiftBot")) {
+	        n = 100.0;
+	    }
+
+	    Random rand = new Random();
+
+	    while (press == false) { // Infinite loop, exit when an object is detected. unless x is pressed
+	        
+	    	if (swiftBot.useUltrasound() <= n) {
+	            System.out.println("Obstacle detected! Stopping1.");
+	            swiftBot.stopMove();
+	            break;
+	        }
+	    	// test if this if else statement is needed?
+
+	        speed = 40;
+
+	        System.out.println("Wandering... (Speed:40)"
+	                         + "\nUnderlights: Blue\n");
+
+	        // Move in smaller steps (100ms at a time) instead of blocking for 5 seconds
+	        for (int i = 0; i < 50; i++) { // 50 * 100ms = 5000ms
+	            if (swiftBot.useUltrasound() <= n) { // Check frequently
+	                System.out.println("Obstacle detected! Stopping2.");
+	                swiftBot.stopMove();
+	                swiftBot.disableUnderlights();
+	                return;
+	            }
+	            swiftBot.move(speed, speed, 100);
+	        }
+
+	        System.out.println("\nWaiting for 1 second after 5 seconds");
+
+	        try {
+	            Thread.sleep(1000);
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+
+	        System.out.println("\nChanging direction randomly...");
+
+	        int random_turn = rand.nextInt(2); // 0 or 1
+	        int random_degree = rand.nextInt(250, 2000);
+
+	        if (random_turn == 0) {  
+	            swiftBot.move(speed, 0, random_degree); // Turn right
+	        } else {  
+	            swiftBot.move(0, speed, random_degree); // Turn left
+	        }
+	    }
 	}
 
 
+	public static void curious_swiftbot() {  // This method runs in a loop in main
 
-	public static void curious_swiftbot() {
+		int[] green = {0, 255, 0}; // Green
+		while(press == false) {  // try this instead of while true. unless X is pressed 
 
-		while (swiftBot.useUltrasound() > 100.0) { // chose the detection distance as 100 cm - can be added as additional func
-			wandering();
-		}
-		// while(true){
-		try {
-
-			// skip this while if its the first object that is detected, if not the first
-			while (swiftBot.useUltrasound() > 100.0 && object_num != 0) {
+			while (swiftBot.useUltrasound() > 100.0) { // Moves until an object is within 100 cm
 				wandering();
 			}
-			
-			swiftBot.stopMove();
-			speed = 60;
-			object_num ++;
-			
-			double dist_to_obj = swiftBot.useUltrasound();
 
-			if (dist_to_obj < 30.0) {
+			try {
+				swiftBot.stopMove();
+				speed = 60;
+				object_num++;
 
-				// go back until 30.0 cm is restored
+				double dist_to_obj = swiftBot.useUltrasound();
 
-				while (swiftBot.useUltrasound() != 30.0) {
+				if (dist_to_obj < 30.0) { // if within 30 cm 
+					// Move backward slightly until distance is at least 30.0 cm
+					swiftBot.fillUnderlights(green);
+					while (swiftBot.useUltrasound() < 29.5) {
+						swiftBot.startMove(-speed, -speed);
+					}
+					swiftBot.disableUnderlights();
+					Thread.sleep(300);
+					
+				} else if (dist_to_obj > 30.0) { // if outside 30 cm
+					// Move forward slightly until distance is at most 30.0 cm
+					swiftBot.fillUnderlights(green);
+					while (swiftBot.useUltrasound() > 30.5) {
+						swiftBot.startMove(speed, speed);
+					}
+					swiftBot.disableUnderlights();
+					Thread.sleep(300);
+					
+				} else { // if already in 30 cm, just blink underlights
 
-					swiftBot.startMove(-speed, -speed);;
-
+					// Blink underlights green 3 times
+					for (int i = 0; i < 3; i++) {
+						swiftBot.fillUnderlights(green); 
+						Thread.sleep(300);
+						
+						swiftBot.disableUnderlights();
+						Thread.sleep(300);
+					}
 				}
+				
 				swiftBot.stopMove();
 
+				Thread.sleep(1000);
 
-			} else if (dist_to_obj > 30.0) {
+				System.out.println("Taking Picture...");
+				Thread.sleep(1000);
+				take_image_save("curious.jpg");
 
-				// go forward until 30.0 cm is restored
-
-				while (swiftBot.useUltrasound() != 30.0) {
-
-					swiftBot.startMove(speed, speed);;
-
-				}
-				swiftBot.stopMove();
-
-			} else { // dist_to_obj == 30.0
-
-				// blink underlights in green
-
-			}
-
-
-			Thread.sleep(1000);
-
-			System.out.println("Taking Picture...");
-			Thread.sleep(1000);
-			take_image_save("curious.jpg");
-			
-			// check again if there's an object
-			double dist_to_obj2 = swiftBot.useUltrasound();
-			// if the same object, and no new object is detected
-			if (dist_to_obj2 == 30.0){
-				// move in a slightly different direction (randomly choose between |20-90| degrees right or left)
+				// Move in a slightly different direction (random left/right turn)
 				Random rand = new Random();
-				int random_num = rand.nextInt(0,2);
-				int random_time = rand.nextInt(250,2500);
+				int random_num = rand.nextInt(2);  // 0 or 1
+				int random_time = rand.nextInt(500, 2000);
 
-				if (random_num == 0) { // if 0, turn right
-
+				if (random_num == 0) { // If 0, turn right
+					
 					swiftBot.move(speed, 0, random_time);
-
-				} else { // if 1, turn left
+					
+				} else { // If 1, turn left
+					
 					swiftBot.move(0, speed, random_time);
 				}
-			}else if (dist_to_obj2 != 30.0 && dist_to_obj2 < 100.0){ // new object detected within that 30 cm
-				// && dist_to_obj2 < 100.0 -> not sure if I need to add this
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
-		// } end of while
-
-
 	}
 
 
 
-	public static void scaredy_swiftbot() {
+	public static void scaredy_swiftbot() { // continuously check if press is false or true. when its true it should get out of the loop 
 
-		while (true) {
+		while (press == false) {
 
 			while (swiftBot.useUltrasound() > 50.0) {   // while (distance_to_object > 50) 
 
@@ -343,28 +351,34 @@ public class Detect_Object {
 				Thread.sleep(1000);
 				take_image_save("scaredy.jpg");  // displays image saved
 
-				// turn and blink underlights in red
+				// blink underlights in red and turn around
+				// Blink underlights green
+				int[] red = {255, 0, 0};
+						
+				for (int i = 0; i < 3; i++) { // Blinks 3 times
+					swiftBot.fillUnderlights(red); 
+					Thread.sleep(300);
+					swiftBot.disableUnderlights(); // underlights off
+					Thread.sleep(300);
+				}
 
 				// move back 15 cm
 				swiftBot.move(-speed,-speed,500); // adjust time accordingly
 				Thread.sleep(1000);
 
 				// turn in the opposite direction
-				swiftBot.move(speed,0,1500); 
+				swiftBot.move(speed,0,1750); // test for 180 degree rotation
 				Thread.sleep(1000);
 
 				// moving away from object for 3s and stops
 				swiftBot.move(speed,speed,3000);
 
-				// swiftbot wait for 5 seconds
-
-				Thread.sleep(5000);
+				Thread.sleep(5000); // wait for 5 seconds
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 	}
 	
@@ -380,7 +394,7 @@ public class Detect_Object {
 //			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
-//			System.out.println("ERROR: Ultrasound Unsuccessful");
+			System.out.println("ERROR: Ultrasound Unsuccessful. couldn't get distance.");
 			System.exit(5);
 		}
 	}
@@ -417,7 +431,7 @@ public class Detect_Object {
 
 	public static void terminate_program() {
 
-		// have to save each info to execution log in log_path
+		// have to save each info to execution log in log_path!!
 
 		try {
 			
@@ -437,12 +451,15 @@ public class Detect_Object {
 												   swiftBot.disableAllButtons();});
 
 
-			Thread.sleep(1000); // give 30 seconds for user to press a button
+			Thread.sleep(2000); // give 2 seconds for user to press a button, I need this!
 
 
 			if (buttonpressX == true) {
 
 				System.out.println("Log file saved at: " + log_path);
+				
+				swiftBot.stopMove();
+				System.exit(1); 
 
 			} else if (buttonpressY == true) {
 
@@ -454,18 +471,22 @@ public class Detect_Object {
 				System.out.println("- Number of objects encountered: " + object_num);
 				System.out.println("- Images saved at: " + image_path);
 				System.out.println("- Log file saved at: " + log_path);
+				
+				swiftBot.stopMove();
+				System.exit(1); 
 
 
 			} else {
 				System.out.println("Invalid button press. Please try again");
 			}
 
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			swiftBot.stopMove(); // ?
 			e.printStackTrace();
 		}
 
-
+		swiftBot.stopMove(); 
 		System.out.println("Program ended. Thank you for using SwiftBot!");
 		swiftBot.disableAllButtons();
 		System.exit(0); // terminate program
@@ -513,69 +534,6 @@ public class Detect_Object {
 		}
 	}
 
-	
-	
-	
-/*
-	
-	public class UltraSound 
-	{
-		public static void main(String[] args) throws Exception 
-		{
-			SwiftBotAPI api = new SwiftBotAPI();
-			
-			for(int i=0;i<25;++i)
-			{
-				long before = System.currentTimeMillis();
-				double d = api.useUltrasound();
-				long after = System.currentTimeMillis();
-				
-				System.out.println("Distance = " + d + " Time = " + (after-before));
-				Thread.sleep(1000);
-			}
-		}
-	}
- 
- * takes 25 ultra sound readings and displays the distance in centimetres along 
- * with how long the method call takes. Note that there may be some variability 
- * in the results, perhaps taking a few readings and taking the average might be 
- * useful, but consider the time each call takes
- */
-
-	
-	
-	
-	
-/* 
- * public class SBButton 
-{
-	private static boolean apressed = false;
-	public static void main(String[] args) throws Exception 
-	{
-		SwiftBotAPI api = new SwiftBotAPI();
-		
-		api.disableAllButtons();
-		
-		api.enableButton(Button.A, () -> {apressed = true;});
-		
-		for(int i=0;i<100;++i)
-		{
-			System.out.println("Checking button (" + i + ")...");
-			if (apressed == true)
-			{
-				System.out.println("+++A Pressed");  // CALL TERMINATION
-				apressed = false;
-			}
-			Thread.sleep(100);
-		}
-		api.disableAllButtons();
-		System.exit(1);
-	}
-}
-
- */
-
-	
 	
 	public static void greeting() {
 
