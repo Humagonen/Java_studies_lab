@@ -244,3 +244,146 @@ public class DetectQR {
 //	}
 //	// } end of while
 //}
+
+
+
+
+
+
+
+//
+//	public static void curious_swiftbot() {  // This method runs in a loop in main
+//
+//		int[] green = {0, 255, 0}; // Green
+//		while(press == false) {  // try this instead of while true. unless X is pressed 
+//
+//			while (swiftBot.useUltrasound() > 100.0) { // Moves until an object is within 100 cm
+//				wandering();
+//			}
+//
+//			try {
+//				swiftBot.stopMove();
+//				speed = 60;
+//				object_num++;
+//
+//				double dist_to_obj = swiftBot.useUltrasound();
+//
+//				if (dist_to_obj < 30.0) { // if within 30 cm 
+//					// Move backward slightly until distance is at least 30.0 cm
+//					swiftBot.fillUnderlights(green);
+//					while (swiftBot.useUltrasound() < 29.5) {
+//						swiftBot.startMove(-speed, -speed);
+//					}
+//					swiftBot.disableUnderlights();
+//					Thread.sleep(300);
+//					
+//				} else if (dist_to_obj > 30.0) { // if outside 30 cm
+//					// Move forward slightly until distance is at most 30.0 cm
+//					swiftBot.fillUnderlights(green);
+//					while (swiftBot.useUltrasound() > 30.5) {
+//						swiftBot.startMove(speed, speed);
+//					}
+//					swiftBot.disableUnderlights();
+//					Thread.sleep(300);
+//					
+//				} else { // if already in 30 cm, just blink underlights
+//
+//					// Blink underlights green 3 times
+//					for (int i = 0; i < 3; i++) {
+//						swiftBot.fillUnderlights(green); 
+//						Thread.sleep(300);
+//						
+//						swiftBot.disableUnderlights();
+//						Thread.sleep(300);
+//					}
+//				}
+//				
+//				swiftBot.stopMove();
+//
+//				Thread.sleep(1000);
+//
+//				System.out.println("Taking Picture...");
+//				Thread.sleep(1000);
+//				take_image_save("curious.jpg");
+//
+//				// Move in a slightly different direction (random left/right turn)
+//				Random rand = new Random();
+//				int random_num = rand.nextInt(2);  // 0 or 1
+//				int random_time = rand.nextInt(500, 2000);
+//
+//				if (random_num == 0) { // If 0, turn right
+//					
+//					swiftBot.move(speed, 0, random_time);
+//					
+//				} else { // If 1, turn left
+//					
+//					swiftBot.move(0, speed, random_time);
+//				}
+//
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
+
+
+
+
+//
+//	public static void wandering() { 
+//	    double n = 50.0;  // Threshold for scaredy mode
+//
+//	    int[] blue = {0, 0, 255}; // blue color
+//	    swiftBot.fillUnderlights(blue);
+//	    
+//	    if(selected_mode.equals("Curious SwiftBot")) {
+//	        n = 100.0;
+//	    }
+//
+//	    Random rand = new Random();
+//
+//	    while (press == false) { // Infinite loop, exit when an object is detected. unless x is pressed
+//	        
+//	    	if (swiftBot.useUltrasound() <= n) {
+//	            System.out.println("Obstacle detected! Stopping1.");
+//	            swiftBot.stopMove();
+//	            break;
+//	        }
+//	    	// test if this if else statement is needed?
+//
+//	        speed = 40;
+//
+//	        System.out.println("Wandering... (Speed:40)"
+//	                         + "\nUnderlights: Blue\n");
+//
+//	        // Move in smaller steps (100ms at a time) instead of blocking for 5 seconds
+//	        for (int i = 0; i < 50; i++) { // 50 * 100ms = 5000ms
+//	            if (swiftBot.useUltrasound() <= n) { // Check frequently
+//	                System.out.println("Obstacle detected! Stopping2.");
+//	                swiftBot.stopMove();
+//	                swiftBot.disableUnderlights();
+//	                return;
+//	            }
+//	            swiftBot.move(speed, speed, 100);
+//	        }
+//
+//	        System.out.println("\nWaiting for 1 second after 5 seconds");
+//
+//	        try {
+//	            Thread.sleep(1000);
+//	        } catch (InterruptedException e) {
+//	            e.printStackTrace();
+//	        }
+//
+//	        System.out.println("\nChanging direction randomly...");
+//
+//	        int random_turn = rand.nextInt(2); // 0 or 1
+//	        int random_degree = rand.nextInt(250, 2000);
+//
+//	        if (random_turn == 0) {  
+//	            swiftBot.move(speed, 0, random_degree); // Turn right
+//	        } else {  
+//	            swiftBot.move(0, speed, random_degree); // Turn left
+//	        }
+//	    }
+//	}
