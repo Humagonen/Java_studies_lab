@@ -113,7 +113,7 @@ public class RotateTriangles{
 		System.out.println("\n-------------------------------------");
 		System.out.println("New Triangles:");
 		System.out.println(Arrays.deepToString(results));  // deepToString for 2d arrays, no need to print for coderunner tho
-		return results;
+		return results; 
 
 	}
 

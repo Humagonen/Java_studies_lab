@@ -76,7 +76,7 @@ public class RunModes {
 		System.out.println(Detect_Object.reset); // reset display color
 	}
 	
-	public void maintain_bufferzone() {
+	public void maintain_bufferzone() {  // CHANGED SOME STUFF HERE ONLY
 		
 		double dist_to_obj = swiftBot.useUltrasound();
 		try {
@@ -86,19 +86,19 @@ public class RunModes {
 				System.out.println("Object is within 30 cm (" + dist_to_obj + " cm). Moving Back...");
 				Thread.sleep(500);
 
-				while (swiftBot.useUltrasound() < 25.0 && !getPress()) { // adjusted the 30 cm to make the bot go for 30 cm in real life
-					swiftBot.startMove(-speed, -speed);
+				while (swiftBot.useUltrasound() < 30.0 && !getPress()) { // adjusted the 30 cm to make the bot go for 30 cm in real life
+					swiftBot.move(-speed, -speed, 100); // BEFORE VIVA - added 100 ms and .move, AND MADE 30 CM
 				}
 				swiftBot.disableUnderlights();
 				Thread.sleep(1000);
 
 				// if object is outside 30 cm 
-			} else if (dist_to_obj > 30.0) { 
+			} else if (dist_to_obj > 30.0) {     // DID THE SAME HERE TOO
 				swiftBot.fillUnderlights(green);
 				System.out.println("Object is outside 30 cm (" + dist_to_obj + " cm). Moving closer...");
 				Thread.sleep(500);
-				while (swiftBot.useUltrasound() > 55.0 && !getPress()) {
-					swiftBot.startMove(speed, speed);
+				while (swiftBot.useUltrasound() > 30.0 && !getPress()) {  // MAKE 30 CM
+					swiftBot.move(speed, speed, 100); // ADD 100ms and move 
 				}
 				swiftBot.disableUnderlights();
 				Thread.sleep(1000);

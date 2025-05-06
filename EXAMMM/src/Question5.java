@@ -46,7 +46,6 @@ public class Question5 {
 			for (int i = 0; i < C.size(); i++) {
 
 				fahrenheit.add((Double.parseDouble(C.get(i))) * 9.0/5.0 + 32);
-
 			}
 
 			System.out.println("no issues in the arraylist: " + fahrenheit);
